@@ -83,7 +83,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = []
 
 PROJECT_APPS = [
-    "messages.apps.MessagesConfig",
+    "conversations.apps.ConversationsConfig",
 ]
 
 
