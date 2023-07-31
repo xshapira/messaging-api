@@ -44,7 +44,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = []
 
 PROJECT_APPS = [
-    "tasks.apps.TasksConfig",
+    "messages.apps.MessagesConfig",
 ]
 
 
