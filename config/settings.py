@@ -32,7 +32,7 @@ class AppSettings(BaseSettings):
     POSTGRES_PASSWORD: str = Field(default=...)
     POSTGRES_HOST: str = Field(default=...)
     POSTGRES_PORT: int = Field(default=...)
-    ALLOWED_HOSTS: str = Field(default=...)
+    ALLOWED_HOSTS: list[str] = Field(default=list)
     DJANGO_SUPERUSER_USERNAME: Optional[str] = Field(default=None)
     DJANGO_SUPERUSER_PASSWORD: Optional[str] = Field(default=None)
     DJANGO_SUPERUSER_EMAIL: Optional[str] = Field(default=None)
