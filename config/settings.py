@@ -80,7 +80,9 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "rest_framework",
+]
 
 PROJECT_APPS = [
     "conversations.apps.ConversationsConfig",
