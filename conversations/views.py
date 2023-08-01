@@ -1,5 +1,6 @@
 from django.db.models import Q, QuerySet
 from rest_framework import generics
+from rest_framework.response import Response
 
 from conversations.models import Message
 from conversations.serializers import MessageSerializer
@@ -52,3 +53,36 @@ class UnreadMessageList(generics.ListAPIView):
 
         user = self.request.user
         return Message.objects.filter(to_user=user, is_read=False)
+
+
+class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, update or delete a message.
+
+    get:
+    Retrieve a message by id.
+
+    put:
+    Update an existing message.
+    Validates and saves updated values to the existing Message.
+
+    delete:
+    Delete a message. Removes the Message from the database.
+    """
+
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+
+    def get(self, request, *Args, **kwargs) -> Response:
+        """
+        Mark the message as read when it's retrieved.
+
+        If the logged-in user is the receiver and the message is unread, it's marked as read.
+        """
+
+        response = super().get(request, *Args, **kwargs)
+        message = self.get_object()
+        if request.user == message.to_user and not message.is_read:
+            message.is_read = True
+            message.save()
+        return response
