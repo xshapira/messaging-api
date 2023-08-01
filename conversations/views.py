@@ -34,3 +34,21 @@ class MessageCreate(generics.CreateAPIView):
 
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+
+
+class UnreadMessageList(generics.ListAPIView):
+    """
+    List unread received messages for the authenticated user.
+
+    We don't include sent messages, as those cannot be considered unread.
+    """
+
+    serializer_class = MessageSerializer
+
+    def get_queryset(self) -> QuerySet[Message]:
+        """
+        Filter for unread received messages.
+        """
+
+        user = self.request.user
+        return Message.objects.filter(to_user=user, is_read=False)
