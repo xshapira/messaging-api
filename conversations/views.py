@@ -9,10 +9,11 @@ from conversations.serializers import MessageSerializer
 
 class MessageList(generics.ListAPIView):
     """
-    List messages.
+    List messages related to the authenticated user.
 
     get:
-    Returns a list of all messages for a specific user.
+    Retrieve and return a list of all messages related to the
+    currently authenticated user.
     """
 
     serializer_class = MessageSerializer
