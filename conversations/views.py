@@ -1,5 +1,5 @@
 from django.db.models import Q, QuerySet
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 
 from conversations.models import Message
@@ -86,3 +86,15 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
             message.is_read = True
             message.save()
         return response
+
+    def delete(self, request, *args, **kwargs) -> Response:
+        """
+        Make sure that only the sender or receiver can delete the message.
+
+        If the logged-in user isn't the sender or receiver, a 403 Forbidden response is returned.
+        """
+
+        message = self.get_object()
+        if request.user not in [message.to_user, message.from_user]:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        return super().delete(request, *args, **kwargs)
