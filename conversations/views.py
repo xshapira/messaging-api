@@ -1,5 +1,6 @@
 from django.db.models import Q, QuerySet
 from rest_framework import generics, status
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from conversations.models import Message
@@ -73,7 +74,7 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
-    def get(self, request, *Args, **kwargs) -> Response:
+    def get(self, request: Request, *Args, **kwargs) -> Response:
         """
         Mark the message as read when it's retrieved.
 
@@ -87,7 +88,7 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
             message.save()
         return response
 
-    def delete(self, request, *args, **kwargs) -> Response:
+    def delete(self, request: Request, *args, **kwargs) -> Response:
         """
         Make sure that only the sender or receiver can delete the message.
 
