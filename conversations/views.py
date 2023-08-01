@@ -18,10 +18,10 @@ class MessageList(generics.ListAPIView):
 
     def get_queryset(self) -> QuerySet[Message]:
         """
-        Filter Messages based on logged in user.
+        Filter Messages based on authenticated user.
 
         Returns:
-            QuerySet containing Message objects that the logged in user either sent or received.
+            QuerySet containing Message objects that the authenticated user either sent or received.
         """
 
         user = self.request.user
@@ -77,7 +77,7 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
         """
         Mark the message as read when it's retrieved.
 
-        If the logged-in user is the receiver and the message is unread, it's marked as read.
+        If the authenticated user is the receiver and the message is unread, it's marked as read.
         """
 
         response = super().get(request, *Args, **kwargs)
@@ -91,7 +91,7 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
         """
         Make sure that only the sender or receiver can delete the message.
 
-        If the logged-in user isn't the sender or receiver, a 403 Forbidden response is returned.
+        If the authenticated user isn't the sender or receiver, a 403 Forbidden response is returned.
         """
 
         message = self.get_object()
