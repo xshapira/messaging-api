@@ -8,8 +8,8 @@ from conversations.views import (
 )
 
 urlpatterns = [
-    path("messages/", MessageList.as_view(), name="message_list"),
-    path("messages/create/", MessageCreate.as_view(), name="message_create"),
-    path("messages/unread/", UnreadMessageList.as_view(), name="unread_message_list"),
-    path("messages/<int:pk>/", MessageDetail.as_view(), name="message_detail"),
+    path("", MessageList.as_view(), name="message_list"),
+    path("create/", MessageCreate.as_view(), name="message_create"),
+    path("unread/", UnreadMessageList.as_view(), name="unread_message_list"),
+    path("<int:pk>/", MessageDetail.as_view(), name="message_detail"),
 ]
