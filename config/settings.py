@@ -86,6 +86,7 @@ THIRD_PARTY_APPS = [
 
 PROJECT_APPS = [
     "conversations.apps.ConversationsConfig",
+    "users.apps.UsersConfig",
 ]
 
 
