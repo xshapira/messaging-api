@@ -1,8 +1,11 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from users.serializers import UserSerializer
 
 
 class LoginView(APIView):
@@ -19,14 +22,13 @@ class LoginView(APIView):
     def post(self, request: Request) -> Response:
         username = request.data.get("username")
         password = request.data.get("password")
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(username=username, password=password)
 
         if user is not None:
-            login(request, user)
-            return Response(
-                {"detail": "Logged in successfully."},
-                status=status.HTTP_200_OK,
-            )
+            token, _ = Token.objects.get_or_create(user=user)
+            serializer = UserSerializer(user)
+            return Response({"token": token.key, "user": serializer.data})
+
         return Response(
             {"detail": "Invalid username or password."},
             status=status.HTTP_401_UNAUTHORIZED,
