@@ -82,11 +82,11 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
         If the authenticated user is the receiver and the message is unread, it's marked as read.
         """
 
-        response = super().get(request, *Args, **kwargs)
         message = self.get_object()
         if request.user == message.to_user and not message.is_read:
             message.is_read = True
             message.save()
+        response = super().get(request, *Args, **kwargs)
         return response
 
     def delete(self, request: Request, *args, **kwargs) -> Response:
