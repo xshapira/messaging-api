@@ -1,11 +1,38 @@
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, UserSignupSerializer
+
+
+class SignupView(APIView):
+    """
+    Register a new user account.
+
+    Handle POST requests by validating user data, creating a new user,
+    and returning a token upon successful registration.
+
+    Returns 201 response with token on success.
+    Returns 400 response with errors on failure.
+    """
+
+    # allow open access for creating new accounts
+    permission_classes = [AllowAny]
+
+    def post(self, request: Request) -> Response:
+        serializer = UserSignupSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response(
+                {"detail": "User created successfully.", "token": token.key},
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginView(APIView):
