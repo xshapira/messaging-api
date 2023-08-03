@@ -40,3 +40,5 @@ COPY . ${APP_HOME}/
 RUN chmod +x /usr/src/app/docker/django/entrypoint_prod
 
 ENTRYPOINT ["/usr/src/app/docker/django/entrypoint_prod"]
+
+CMD ["/usr/src/app/docker/django/start_production"]
