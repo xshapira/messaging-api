@@ -5,7 +5,7 @@ from rest_framework import serializers
 class UserSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["username", "password", "email"]
+        fields = ["username", "password"]
         # password won't be exposed in any response
         extra_kwargs = {"password": {"write_only": True}}
 
@@ -13,7 +13,6 @@ class UserSignupSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             username=validated_data["username"],
             password=validated_data["password"],
-            email=validated_data["email"],
         )
         return user
 
@@ -21,4 +20,4 @@ class UserSignupSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email"]
+        fields = ["id", "username"]
