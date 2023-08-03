@@ -1,0 +1,35 @@
+version: '3.8'
+
+volumes:
+  postgres-data:
+  postgres-data-backups:
+
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: ./docker/postgres/Dockerfile
+    image: messaging-api-postgres-data
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - postgres-data-backups:/backups
+    env_file:
+      - ./prod.env
+    restart: unless-stopped
+
+  django:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile.prod
+    image: messaging-api-backend
+    volumes:
+      - .:/usr/src/app
+      - ./prod.env:/usr/src/app/prod.env
+    command: /usr/src/app/docker/django/start_production
+    ports:
+      - 8000:8000
+    env_file:
+      - ./prod.env
+    depends_on:
+      - postgres
+    restart: unless-stopped
