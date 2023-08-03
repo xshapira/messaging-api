@@ -13,9 +13,10 @@ ENV PYTHONDONTWRITEBYTECODE 1 \
 ENV PATH="$POETRY_HOME/bin:$PATH"
 
 RUN apt update \
-  && apt install -y curl git libpq-dev gcc libglu1 \
+  && apt install -y curl git libpq-dev gcc libglu1 libpq5 \
   && pip install --upgrade pip \
   && pip install psycopg psycopg-binary \
+  && pip install "psycopg[c]" \
   && pip install gunicorn \
   && curl -sSL https://install.python-poetry.org | POETRY_HOME=/usr/local/poetry python3 - \
   # cleaning up unused files
@@ -27,7 +28,7 @@ COPY ./pyproject.toml ${APP_HOME}/
 RUN poetry config virtualenvs.create false \
   && poetry install
 
-COPY ./docker/django/entrypoint /usr/src/app/docker/django/entrypoint
+COPY ./docker/django/entrypoint_prod /usr/src/app/docker/django/entrypoint_prod
 COPY ./docker/django/start_production /usr/src/app/docker/django/start_production
 
 RUN ls -la /usr/src/app/docker/django/ \
@@ -36,6 +37,6 @@ RUN ls -la /usr/src/app/docker/django/ \
 
 COPY . ${APP_HOME}/
 
-RUN chmod +x /usr/src/app/docker/django/entrypoint
+RUN chmod +x /usr/src/app/docker/django/entrypoint_prod
 
-ENTRYPOINT ["/usr/src/app/docker/django/entrypoint"]
+ENTRYPOINT ["/usr/src/app/docker/django/entrypoint_prod"]
