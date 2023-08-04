@@ -173,9 +173,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_ROOT = BASE_DIR.joinpath("static")
+if not DEBUG:
+    STATIC_ROOT = Path(BASE_DIR, "staticfiles")
+
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR.joinpath("config/static")]
+STATICFILES_DIRS = [str(BASE_DIR / "config" / "static")]
+
+# Turn on WhiteNoise storage backend that takes care of compressing static files
+# and creating unique names for each version so they can safely be cached forever.
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
