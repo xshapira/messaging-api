@@ -213,3 +213,11 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
 }
+
+
+if not DEBUG:
+    # Set the default renderer to JSON in production, disabling DRF's
+    # web API interface
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
+        "rest_framework.renderers.JSONRenderer",
+    ]
