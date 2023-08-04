@@ -21,7 +21,47 @@ Messaging API that allows to manage messages between users.
 
 * **Token Authentication** - Only authenticated users can access endpoints. Users get a token on signup/login that must be included in the Authorization header.
 
-<div style="margin-top: 70px; ">
+---
+
+## Getting Started with the Project
+
+To run the project, follow these steps:
+
+Rename the .example.env file to .env
+
+```bash
+mv .example.env .env
+```
+
+Open the `.env` file and fill in the necessary information where indicated.
+
+Build and run the Docker containers using docker-compose.
+
+```bash
+docker-compose up --build
+```
+
+**Accessing the Backend**:
+
+Once the containers are up and running, the server will be accessible at:
+
+```bash
+http://0.0.0.0:8000/
+```
+
+**Using the Django Admin**:
+
+To access the Django Admin interface, use the following URL:
+
+```bash
+http://0.0.0.0:8000/admin/
+```
+
+**Username**: admin
+
+**Password**: admin
+
+---
 
 # Endpoints
 
