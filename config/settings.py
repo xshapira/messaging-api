@@ -33,6 +33,7 @@ class AppSettings(BaseSettings):
     POSTGRES_HOST: str = Field(default=...)
     POSTGRES_PORT: int = Field(default=...)
     ALLOWED_HOSTS: list[str] = Field(default=list)
+    CSRF_TRUSTED_ORIGINS: list[str] = Field(default=list)
     DJANGO_SUPERUSER_USERNAME: Optional[str] = Field(default=None)
     DJANGO_SUPERUSER_PASSWORD: Optional[str] = Field(default=None)
     DJANGO_SUPERUSER_EMAIL: Optional[str] = Field(default=None)
@@ -194,12 +195,13 @@ ADMIN_URL = "admin/"
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-httponly
 SESSION_COOKIE_HTTPONLY = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-httponly
-CSRF_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-browser-xss-filter
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
+
+CSRF_TRUSTED_ORIGINS = config.CSRF_TRUSTED_ORIGINS
+
 
 # Set up DRF Authentication
 REST_FRAMEWORK = {
