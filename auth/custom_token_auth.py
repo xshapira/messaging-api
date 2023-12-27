@@ -9,5 +9,5 @@ class TokenCookieAuthentication(authentication.TokenAuthentication):
         if token:
             return self.authenticate_credentials(token)
 
-        # Otherwise check normal auth sources
+        # If no cookie, fall back to standard token auth
         return super().authenticate(request)
