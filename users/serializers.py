@@ -8,7 +8,7 @@ class UserSignupSerializer(serializers.ModelSerializer):
         model = User
         fields = ["username", "password"]
         read_only_fields = ["token"]
-        # password won't be exposed in any response
+        # password and token won't be exposed in any response
         extra_kwargs = {
             "password": {"write_only": True},
             "token": {"write_only": True},
