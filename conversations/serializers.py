@@ -28,11 +28,16 @@ class UserField(serializers.PrimaryKeyRelatedField):
 
 
 class MessageSerializer(serializers.ModelSerializer):
-    from_user = UserField(queryset=User.objects.all())
+    from_user = serializers.ReadOnlyField(source="from_user.username")
     to_user = UserField(queryset=User.objects.all())
+
+    def create(self, validated_data):
+        validated_data["from_user"] = self.context["request"].user
+        return super().create(validated_data)
 
     class Meta:
         model = Message
+        read_only_fields = ["from_user"]
         fields = [
             "id",
             "from_user",
