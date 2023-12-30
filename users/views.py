@@ -26,11 +26,18 @@ class SignupView(APIView):
     def post(self, request: Request) -> Response:
         serializer = UserSignupSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(
+            user = serializer.save()
+            token = Token.objects.create(user=user)
+
+            response = Response(
                 {"detail": "User created successfully."},
                 status=status.HTTP_201_CREATED,
             )
+            response.set_cookie(
+                key="authToken",
+                value=token.key,
+                )
+            return response
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -51,7 +58,7 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            token, _ = Token.objects.get_or_create(user=user)
+            token = Token.objects.get(user=user)
             serializer = UserSerializer(user)
             response = Response({"user": serializer.data})
             response.set_cookie(

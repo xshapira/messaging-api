@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
 
 
 class UserSignupSerializer(serializers.ModelSerializer):
@@ -19,7 +18,6 @@ class UserSignupSerializer(serializers.ModelSerializer):
             username=validated_data["username"],
             password=validated_data["password"],
         )
-        Token.objects.create(user=user)
         return user
 
 
