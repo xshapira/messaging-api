@@ -25,16 +25,14 @@ djangorestframework-stubs = { extras = [
 ], version = "^3.14.2" }
 
 [tool.mypy]
-follow_imports = "silent"
 disallow_untyped_defs = true
 disallow_any_unimported = true
 no_implicit_optional = true
-no_implicit_reexport = true
-check_untyped_defs = true
 strict_equality = true
 warn_unused_ignores = true
 warn_redundant_casts = true
 warn_return_any = true
+check_untyped_defs = true
 show_error_codes = true
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 
