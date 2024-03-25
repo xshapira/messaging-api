@@ -27,11 +27,17 @@ class SignupView(APIView):
         serializer = UserSignupSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            token, _ = Token.objects.get_or_create(user=user)
-            return Response(
-                {"detail": "User created successfully.", "token": token.key},
+            token = Token.objects.create(user=user)
+
+            response = Response(
+                {"detail": "User created successfully."},
                 status=status.HTTP_201_CREATED,
             )
+            response.set_cookie(
+                key="authToken",
+                value=token.key,
+                )
+            return response
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -52,9 +58,14 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            token, _ = Token.objects.get_or_create(user=user)
+            token = Token.objects.get(user=user)
             serializer = UserSerializer(user)
-            return Response({"token": token.key, "user": serializer.data})
+            response = Response({"user": serializer.data})
+            response.set_cookie(
+                key="authToken",
+                value=token.key,
+            )
+            return response
 
         return Response(
             {"detail": "Invalid username or password."},

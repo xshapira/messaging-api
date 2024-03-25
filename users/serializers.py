@@ -6,8 +6,12 @@ class UserSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username", "password"]
-        # password won't be exposed in any response
-        extra_kwargs = {"password": {"write_only": True}}
+        read_only_fields = ["token"]
+        # password and token won't be exposed in any response
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "token": {"write_only": True},
+            }
 
     def create(self, validated_data: dict[str, str]) -> User:
         user = User.objects.create_user(
