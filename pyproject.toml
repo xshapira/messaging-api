@@ -24,28 +24,6 @@ djangorestframework-stubs = { extras = [
   "compatible-mypy",
 ], version = "^3.14.2" }
 
-[tool.ruff]
-line-length = 88
-exclude = ['.git', '__pycache__', '__init__.py', '.mypy_cache', '.pytest_cache']
-select = [
-  "E", # pycodestyle errors
-  "W", # pycodestyle warnings
-  "F", # pyflakes
-  "C", # flake8-comprehensions
-  "B", # flake8-bugbear
-]
-ignore = [
-  "E501", # line too long, handled by black
-  "C901", # too complex
-]
-
-[tool.isort]
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-line_length = 88
-profile = "black"
-
 [tool.mypy]
 follow_imports = "silent"
 disallow_untyped_defs = true
@@ -59,6 +37,31 @@ warn_redundant_casts = true
 warn_return_any = true
 show_error_codes = true
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
+
+[tool.ruff]
+line-length = 88
+exclude = ['.git', '__pycache__', '__init__.py', '.mypy_cache', '.pytest_cache']
+lint.select = [
+  "E",  # pycodestyle errors
+  "W",  # pycodestyle warnings
+  "F",  # pyflakes
+  "I",  # isort
+  "C",  # flake8-comprehensions
+  "B",  # flake8-bugbear
+  "UP", # pyupgrade
+]
+lint.ignore = [
+  "E501", # line too long
+  "C901", # Comprehension is too complex (11 > 10)
+  "W191", # indentation contains tabs
+  "E402",
+]
+lint.unfixable = ["F841"]
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
 
 [tool.django-stubs]
 django_settings_module = "config.settings"
