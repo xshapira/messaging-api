@@ -38,14 +38,15 @@ class MessageCreate(generics.CreateAPIView):
     serializer_class = MessageSerializer
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data, context={"request": request})
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=400)
-
 
 
 class UnreadMessageList(generics.ListAPIView):

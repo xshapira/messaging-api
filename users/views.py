@@ -36,7 +36,7 @@ class SignupView(APIView):
             response.set_cookie(
                 key="authToken",
                 value=token.key,
-                )
+            )
             return response
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

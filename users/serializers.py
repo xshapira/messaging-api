@@ -11,7 +11,7 @@ class UserSignupSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "password": {"write_only": True},
             "token": {"write_only": True},
-            }
+        }
 
     def create(self, validated_data: dict[str, str]) -> User:
         user = User.objects.create_user(

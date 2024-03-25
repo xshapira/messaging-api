@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 import functools
 from pathlib import Path
 from typing import Optional
@@ -181,7 +182,11 @@ STATICFILES_DIRS = [str(BASE_DIR / "config" / "static")]
 
 # Turn on WhiteNoise storage backend that takes care of compressing static files
 # and creating unique names for each version so they can safely be cached forever.
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
