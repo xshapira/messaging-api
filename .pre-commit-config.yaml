@@ -4,6 +4,7 @@ repos:
     hooks:
       - id: check-toml
       - id: check-yaml
+        args: ['--unsafe']
       - id: check-json
       - id: check-added-large-files
         args: ['--maxkb=10240']
@@ -11,15 +12,13 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
-  - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.14.0
-    hooks:
-      - id: django-upgrade
-        args: ['--target-version', '4.2']
-
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.3.4
+    rev: v0.4.5
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --fixable=F841]
       - id: ruff-format
+
+ci:
+  autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
+  autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate
